@@ -22,7 +22,6 @@ class Tree
   def build_tree(array)
     array = array.uniq.sort
     root_node = sorted_array_to_bst(array, 0, array.length - 1)
-    p root_node
   end
 
   def sorted_array_to_bst(array, start, last)
@@ -37,7 +36,16 @@ class Tree
     return root
   end
 
-  def insert(value)
+  def insert(value, root=@root)
+    return Node.new(value) if root.nil?
+
+    if value < root.data
+      root.left_child = insert(value, root.left_child)
+    elsif value > root.data
+      root.right_child = insert(value, root.right_child)
+    end
+
+    return root
   end
 
   def delete(value)
@@ -51,6 +59,8 @@ class Tree
 end
 
 
-array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+array = [1, 7, 4, 5, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 bst_tree = Tree.new(array)
+puts bst_tree.pretty_print
+bst_tree.insert(69)
 puts bst_tree.pretty_print
